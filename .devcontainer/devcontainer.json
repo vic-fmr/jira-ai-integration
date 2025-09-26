@@ -1,0 +1,23 @@
+{
+  "name": "Jira AI Integration - Dev Env",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app", // O Codespaces vai se conectar a este serviço
+  "workspaceFolder": "/workspace", // Onde o código estará dentro do container
+
+  // Personalizações para o VS Code dentro do Codespaces
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack", // Pacote essencial para Java
+        "vmware.vscode-spring-boot", // Suporte para Spring Boot
+        "ms-azuretools.vscode-docker" // Para gerenciar os containers
+      ]
+    }
+  },
+
+  // Portas para encaminhar automaticamente
+  "forwardPorts": [8080, 11434], // 8080 para Spring, 11434 para Ollama
+
+  // Comando a ser executado após a criação do Codespace
+  "postCreateCommand": "mvn install -DskipTests" // Baixa as dependências do Maven
+}
