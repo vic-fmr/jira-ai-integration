@@ -45,4 +45,4 @@ O projeto segue uma arquitetura em camadas, com o frontend em Angular se comunic
 - Lucas Rodrigues - [@lucxsz-web](https://github.com/lucxsz-web) - [Linkedin](https://www.linkedin.com/in/lucas-rodrigues-08261b2ba/)
 - René Melo - [@renysoo](https://github.com/renysoo) - [Linkedin](https://www.linkedin.com/in/renelucena/)
 - Victor Ferreira - [@vic-fmr](https://github.com/vic-fmr) - [Linkedin](https://www.linkedin.com/in/victor-ferreira-marques/)
-- Pamela Rodrigues - [@](https://github.com/) - [Linkedin](https://www.linkedin.com/in/rodrigues-pamela/)
+- Pamela Rodrigues - [@draedpunk](https://github.com/draedpunk) - [Linkedin](https://www.linkedin.com/in/rodrigues-pamela/)
