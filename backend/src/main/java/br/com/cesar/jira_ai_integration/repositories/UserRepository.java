@@ -1,6 +1,6 @@
-package br.com.cesar.jira_ai_integration.repository;
+package br.com.cesar.jira_ai_integration.repositories;
 
-import br.com.cesar.jira_ai_integration.model.AppUser;
+import br.com.cesar.jira_ai_integration.models.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

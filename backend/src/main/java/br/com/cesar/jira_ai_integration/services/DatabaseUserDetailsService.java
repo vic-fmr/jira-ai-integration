@@ -1,7 +1,7 @@
-package br.com.cesar.jira_ai_integration.service;
+package br.com.cesar.jira_ai_integration.services;
 
-import br.com.cesar.jira_ai_integration.model.AppUser;
-import br.com.cesar.jira_ai_integration.repository.UserRepository;
+import br.com.cesar.jira_ai_integration.models.AppUser;
+import br.com.cesar.jira_ai_integration.repositories.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

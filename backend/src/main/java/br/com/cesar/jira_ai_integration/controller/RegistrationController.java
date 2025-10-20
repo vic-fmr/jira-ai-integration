@@ -1,7 +1,7 @@
 package br.com.cesar.jira_ai_integration.controller;
 
-import br.com.cesar.jira_ai_integration.model.AppUser;
-import br.com.cesar.jira_ai_integration.service.DatabaseUserDetailsService;
+import br.com.cesar.jira_ai_integration.models.AppUser;
+import br.com.cesar.jira_ai_integration.services.DatabaseUserDetailsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

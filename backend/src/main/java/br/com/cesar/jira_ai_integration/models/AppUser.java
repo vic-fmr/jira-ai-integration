@@ -1,4 +1,4 @@
-package br.com.cesar.jira_ai_integration.model;
+package br.com.cesar.jira_ai_integration.models;
 
 import jakarta.persistence.*;
 
