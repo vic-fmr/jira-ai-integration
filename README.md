@@ -41,3 +41,11 @@ O projeto segue uma arquitetura em 3 camadas com comunicação via API RESTful.
 | **Banco de Dados** | ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white) | Persistência de dados (usuários, documentos, sugestões da IA). |
 | **Integrações** | ![Jira](https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white) | APIs externas para criação de tarefas (Jira) e análise de texto (LLM). |
 
+## Contato
+
+- Ana Sofia - [@Sun-cs-Sol](https://github.com/Sun-cs-Sol) - [Linkedin](https://www.linkedin.com/in/ana-sofia-moura-27b003248/)
+- Camila Maria - [@camilamta275](https://github.com/camilamta275) - [Linkedin](https://www.linkedin.com/in/camilamta275/)
+- Lucas Rodrigues - [@lucxsz-web](https://github.com/lucxsz-web) - [Linkedin](https://www.linkedin.com/in/lucas-rodrigues-08261b2ba/)
+- René Melo - [@renysoo](https://github.com/renysoo) - [Linkedin](https://www.linkedin.com/in/renelucena/)
+- Victor Ferreira - [@vic-fmr](https://github.com/vic-fmr) - [Linkedin](https://www.linkedin.com/in/victor-ferreira-marques/)
+- Pamela Rodrigues - [@draedpunk](https://github.com/draedpunk) - [Linkedin](https://www.linkedin.com/in/rodrigues-pamela/)
