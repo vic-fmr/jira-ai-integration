@@ -5,13 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9138c91f-8721-498b-b913-9474ce0d0d81" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.edit.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/dtos/UploadResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/controllers/DocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/controllers/DocumentController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/models/Document.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/models/Document.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/repositories/DocumentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/repositories/DocumentRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/services/DocumentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/services/DocumentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/jira-front/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/jira-front/src/app/app.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/jira-front/src/app/components/document-upload/document-upload.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/jira-front/src/app/components/document-upload/document-upload.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/jira-front/src/app/components/document-upload/document-upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/jira-front/src/app/components/document-upload/document-upload.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/jira-front/src/app/components/document-upload/document-upload.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/jira-front/src/app/components/document-upload/document-upload.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/jira-front/src/service/document.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/jira-front/src/service/document.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/jira-front/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/jira-front/src/styles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,27 +32,28 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Record" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "vic-fmr"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;vic-fmr&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/vic-fmr/jira-ai-integration.git",
-    "accountId": "84a4d409-e043-4e13-aa82-035c0df4958d"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/vic-fmr/jira-ai-integration.git&quot;,
+    &quot;accountId&quot;: &quot;84a4d409-e043-4e13-aa82-035c0df4958d&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="357FpA8B6PEl7BIaOiSjv80JqbK" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -50,9 +61,15 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.JiraAiIntegrationApplication.executor": "Run",
     "git-widget-placeholder": "feature/doc-upload",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
@@ -68,6 +85,11 @@
     "to.speed.mode.migration.done": "true",
     "ts.external.directory.path": "C:\\Users\\HOME\\IdeaProjects\\jira-ai-integration\\frontend\\jira-front\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "h2"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
@@ -101,6 +123,7 @@
       <option name="presentableId" value="Default" />
       <updated>1762453386006</updated>
       <workItem from="1762453391109" duration="4521000" />
+      <workItem from="1762567032462" duration="4472000" />
     </task>
     <servers />
   </component>

@@ -2,55 +2,32 @@
   <h2>Upload de Documento de Requisitos</h2>
   <p>Formatos permitidos: {{ ALLOWED_TYPES.join(', ') }}</p>
 
-  <input type="file" 
-         (change)="onFileSelected($event)" 
-         accept=".pdf,.docx,.txt" 
+  <input type="file"
+         (change)="onFileSelected($event)"
+         accept=".pdf,.docx,.txt"
          #fileInput>
 
-  <div *ngIf="selectedFile" class="file-info">
-    <span>{{ selectedFile.name }} ({{ (selectedFile.size / 1024 / 1024).toFixed(2) }} MB)</span>
-    <button (click)="onUpload()" 
-            [disabled]="uploadStatus === 'uploading'"
-            class="send-button">
-      <span *ngIf="uploadStatus !== 'uploading'">Enviar para o Backend</span>
-      <span *ngIf="uploadStatus === 'uploading'">Enviando...</span> </button>
-  </div>
+  @if (selectedFile) {
+    <div class="file-info">
+      <span>{{ selectedFile.name }} ({{ (selectedFile.size / 1024 / 1024).toFixed(2) }} MB)</span>
+      <button (click)="onUpload()"
+              [disabled]="uploadStatus === 'uploading'"
+              class="send-button">
 
-  <div *ngIf="message" [ngClass]="{'success-msg': uploadStatus === 'success', 'error-msg': uploadStatus === 'error', 'pending-msg': uploadStatus === 'pending' || uploadStatus === 'uploading'}">
-    {{ message }}
-  </div>
+        @if (uploadStatus !== 'uploading') {
+          <span>Enviar para o Backend</span>
+        }
+
+        @if (uploadStatus === 'uploading') {
+          <span>Enviando...</span>
+        }
+      </button>
+    </div>
+  }
+
+  @if (message) {
+    <div [ngClass]="{'success-msg': uploadStatus === 'success', 'error-msg': uploadStatus === 'error', 'pending-msg': uploadStatus === 'pending' || uploadStatus === 'uploading'}">
+      {{ message }}
+    </div>
+  }
 </div>
-
-<style>
-/* CSS simples para melhor visualização */
-.upload-container {
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.file-info {
-  margin-top: 15px;
-  padding: 10px;
-  border: 1px dashed #aaa;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.send-button {
-  padding: 8px 15px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.success-msg { color: green; font-weight: bold; }
-.error-msg { color: red; font-weight: bold; }
-.pending-msg { color: orange; }
-</style>

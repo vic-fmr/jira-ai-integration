@@ -1,24 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http'; // Importar HttpResponse
 import { Observable } from 'rxjs';
-import { UploadResponse } from '../models/document.model'; // Importa o modelo criado
+import { UploadResponse } from '../models/document.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
 
-  // URL base do seu Backend. Ajuste se necessário.
-  private apiUrl = 'http://localhost:8080/api/documents'; 
+  private apiUrl = 'http://localhost:8080/api/documents';
 
   constructor(private http: HttpClient) { }
 
-  uploadDocument(file: File): Observable<UploadResponse> {
-  
+  uploadDocument(file: File): Observable<HttpResponse<UploadResponse>> { // 💡 Mudar o tipo de retorno para HttpResponse
+
     const formData = new FormData();
-    // O nome 'file' deve coincidir com o @RequestParam("file")
     formData.append('file', file, file.name);
 
-    return this.http.post<UploadResponse>(`${this.apiUrl}/upload`, formData);
+    return this.http.post<UploadResponse>(`${this.apiUrl}/upload`, formData, {
+      // 💡 O AJUSTE CRÍTICO: Dizer ao Angular para observar a resposta completa
+      observe: 'response'
+    });
   }
 }
