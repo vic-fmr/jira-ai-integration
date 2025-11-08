@@ -4,25 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9138c91f-8721-498b-b913-9474ce0d0d81" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.edit.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/dtos/UploadResponseDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/controllers/DocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/controllers/DocumentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/models/Document.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/models/Document.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/services/DocumentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/br/com/cesar/jira_ai_integration/services/DocumentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/jira-front/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/jira-front/src/app/app.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/jira-front/src/app/components/document-upload/document-upload.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/jira-front/src/app/components/document-upload/document-upload.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/jira-front/src/app/components/document-upload/document-upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/jira-front/src/app/components/document-upload/document-upload.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/jira-front/src/app/components/document-upload/document-upload.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/jira-front/src/app/components/document-upload/document-upload.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/jira-front/src/service/document.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/jira-front/src/service/document.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/jira-front/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/jira-front/src/styles.css" afterDir="false" />
-    </list>
+    <list default="true" id="9138c91f-8721-498b-b913-9474ce0d0d81" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -123,7 +105,7 @@
       <option name="presentableId" value="Default" />
       <updated>1762453386006</updated>
       <workItem from="1762453391109" duration="4521000" />
-      <workItem from="1762567032462" duration="4472000" />
+      <workItem from="1762567032462" duration="4732000" />
     </task>
     <servers />
   </component>
