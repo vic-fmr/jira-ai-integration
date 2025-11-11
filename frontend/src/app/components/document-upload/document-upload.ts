@@ -10,7 +10,7 @@ import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
   templateUrl: './document-upload.html',
   styleUrls: ['./document-upload.css']
 })
-export class DocumentUploadComponent {
+export class DocumentUpload {
 
   selectedFile: File | null = null;
   uploadStatus: 'pending' | 'uploading' | 'success' | 'error' = 'pending';
