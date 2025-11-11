@@ -1,11 +1,14 @@
 <div class="upload-container">
   <h2>Upload de Documento de Requisitos</h2>
+  <h3>Clique ou arraste para carregar um arquivo</h3>
   <p>Formatos permitidos: {{ ALLOWED_TYPES.join(', ') }}</p>
 
   <input type="file"
          (change)="onFileSelected($event)"
          accept=".pdf,.docx,.txt"
-         #fileInput>
+         class="file-input"
+         id="file-upload-button"
+  >
 
   @if (selectedFile) {
     <div class="file-info">

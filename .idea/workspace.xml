@@ -4,7 +4,48 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9138c91f-8721-498b-b913-9474ce0d0d81" name="Changes" comment="" />
+    <list default="true" id="9138c91f-8721-498b-b913-9474ce0d0d81" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/document-upload/document-upload.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/document-upload/document-upload.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/document-upload/document-upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/document-upload/document-upload.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/document-upload/document-upload.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/document-upload/document-upload.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/angular.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/public/images/background-laranja.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/public/images/cerebro.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/public/images/data-management.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/public/images/logo-jira.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/app/app.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/app/app.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/app/app.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/app/app.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/app/app.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/app/app.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/app/components/document-upload/document-upload.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/app/components/document-upload/document-upload.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/app/components/document-upload/document-upload.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/app/components/document-upload/document-upload.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/main.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/models/document.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/service/document.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/src/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/tsconfig.app.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jira-front/tsconfig.spec.json" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -65,7 +106,7 @@
     "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "Errors",
     "to.speed.mode.migration.done": "true",
-    "ts.external.directory.path": "C:\\Users\\HOME\\IdeaProjects\\jira-ai-integration\\frontend\\jira-front\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\HOME\\IdeaProjects\\jira-ai-integration\\frontend\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -76,6 +117,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\HOME\IdeaProjects\jira-ai-integration\frontend\src" />
+      <recent name="C:\Users\HOME\IdeaProjects\jira-ai-integration\frontend\src\styles" />
+      <recent name="C:\Users\HOME\IdeaProjects\jira-ai-integration" />
       <recent name="C:\Users\HOME\IdeaProjects\jira-ai-integration\frontend" />
     </key>
   </component>

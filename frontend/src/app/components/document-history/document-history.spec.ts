@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DocumentUploadComponent } from './document-upload';
+import { DocumentHistory } from './document-history';
 
-describe('DocumentUploadComponent', () => {
-  let component: DocumentUploadComponent;
-  let fixture: ComponentFixture<DocumentUploadComponent>;
+describe('DocumentHistory', () => {
+  let component: DocumentHistory;
+  let fixture: ComponentFixture<DocumentHistory>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DocumentUploadComponent]
+      imports: [DocumentHistory]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DocumentUploadComponent);
+    fixture = TestBed.createComponent(DocumentHistory);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
