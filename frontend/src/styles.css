@@ -1,0 +1,58 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  /* ==================================== */
+  /* 🎨 CORES BASE E DE FUNDO */
+  /* ==================================== */
+  --color-white: #ffffff;
+  --color-dark-text: #2c3e50;
+  --color-light-text: #607289;
+
+  --color-background: #fcfcfd;
+  --color-sidebar-bg: #ffffff;
+  --color-card-bg: #ffffff;
+
+  --color-border-light: #eceef1;
+
+  /* ==================================== */
+  /* 🌟 CORES DE AÇÃO / DESTAQUE */
+  /* ==================================== */
+  --color-primary: #5c6bc0;
+  --color-secondary: #ff6e40;
+  --color-new-badge: #e57373;
+
+  /* ==================================== */
+  /* 📏 DIMENSÕES E ESPAÇAMENTO */
+  /* ==================================== */
+  --border-radius-card: 16px;
+  --border-radius-small: 8px;
+
+  --spacing-xl: 3rem;
+  --spacing-l: 2rem;
+  --spacing-m: 1.5rem;
+  --spacing-s: 1rem;
+  --spacing-xs: 0.5rem;
+
+  /* ==================================== */
+  /* ✨ SOMBRAS */
+  /* ==================================== */
+  --shadow-sidebar: 0 0 10px rgba(0, 0, 0, 0.03);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-button: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--color-dark-text);
+  background-color: var(--color-background);
+  min-height: 100vh;
+}
