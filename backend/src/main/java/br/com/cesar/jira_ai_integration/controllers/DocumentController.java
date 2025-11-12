@@ -2,19 +2,15 @@ package br.com.cesar.jira_ai_integration.controllers;
 
 import br.com.cesar.jira_ai_integration.dtos.UploadResponseDTO;
 import br.com.cesar.jira_ai_integration.models.Document;
-import br.com.cesar.jira_ai_integration.models.User;
 import br.com.cesar.jira_ai_integration.services.DocumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Map;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/documents")
-@CrossOrigin(origins = "http://localhost:4200")
 public class DocumentController {
 
     private final DocumentService documentService;
@@ -38,7 +34,7 @@ public class DocumentController {
         }
 
         try {
-            Document savedDocument = documentService.upload(file /* mockUser */);
+            Document savedDocument = documentService.uploadAndExtract(file /* mockUser */);
             System.out.println("Documento salvo com ID: " + savedDocument.getId());
             System.out.println("Nome do arquivo: " + savedDocument.getFilename());
 
