@@ -23,7 +23,7 @@ public class Document {
     @Column(name = "upload_timestamp", nullable = false, updatable = false)
     private Instant uploadTimestamp;
 //
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

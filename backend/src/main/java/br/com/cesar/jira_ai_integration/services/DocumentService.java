@@ -1,6 +1,7 @@
 package br.com.cesar.jira_ai_integration.services;
 
 import br.com.cesar.jira_ai_integration.models.Document;
+import br.com.cesar.jira_ai_integration.models.User;
 import br.com.cesar.jira_ai_integration.repositories.DocumentRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -21,8 +22,8 @@ public class DocumentService {
     private final DocumentRepository documentRepository;
 
     @Transactional
-    public Document uploadAndExtract(MultipartFile file /* User currentUser */) throws Exception {
-        Document document = upload(file /* currentUser */);
+    public Document uploadAndExtract(MultipartFile file, User currentUser) throws Exception {
+        Document document = upload(file, currentUser);
 
         String content = extractTextFromFile(file);
 
@@ -56,7 +57,7 @@ public class DocumentService {
     }
 
     @Transactional
-    public Document upload(MultipartFile file /* User currentUser */) {
+    public Document upload(MultipartFile file, User currentUser) throws Exception {
         // RF-S01 exige validação de formato (ex: .pdf, .docx, .txt)
         // *Implementar validação do 'file' aqui*
 
@@ -65,7 +66,7 @@ public class DocumentService {
 
         Document document = new Document();
         document.setFilename(file.getOriginalFilename());
-//        document.setUser(currentUser);
+        document.setUser(currentUser);
 
         return documentRepository.save(document);
     }
