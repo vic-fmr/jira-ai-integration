@@ -44,7 +44,7 @@ public class SecurityConfig {
           .cors(cors -> cors.configurationSource(corsConfigurationSource()))
           .authorizeHttpRequests(auth -> auth
               .requestMatchers( "/api/auth/**").permitAll()
-              .anyRequest().authenticated() // Qualquer outro endpoint requer autenticação
+              .anyRequest().permitAll() // Qualquer outro endpoint requer autenticação
           )
           .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

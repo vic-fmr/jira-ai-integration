@@ -19,8 +19,8 @@ public class DocumentController {
 
     @PostMapping("/upload")
     public ResponseEntity<UploadResponseDTO> uploadDocument(
-            @RequestParam("file") MultipartFile file,
-            @AuthenticationPrincipal User user
+            @RequestParam("file") MultipartFile file
+            // @AuthenticationPrincipal User user
 
     ) {
         if (file.isEmpty()) {
@@ -28,7 +28,7 @@ public class DocumentController {
         }
 
         try {
-            Document savedDocument = documentService.uploadAndExtract(file, user);
+            Document savedDocument = documentService.uploadAndExtract(file /* user */);
             System.out.println("Documento salvo com ID: " + savedDocument.getId());
             System.out.println("Nome do arquivo: " + savedDocument.getFilename());
 
