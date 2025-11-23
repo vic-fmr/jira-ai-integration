@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/documents")
 public class DocumentController {
 
@@ -20,15 +21,15 @@ public class DocumentController {
     @PostMapping("/upload")
     public ResponseEntity<UploadResponseDTO> uploadDocument(
             @RequestParam("file") MultipartFile file
-            // @AuthenticationPrincipal User user
-
+            //, @AuthenticationPrincipal User user
     ) {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body(new UploadResponseDTO( "O arquivo não pode estar vazio.", null, null));
         }
 
         try {
-            Document savedDocument = documentService.uploadAndExtract(file /* user */);
+            Document savedDocument = documentService.uploadAndRead(file /*user*/);
+
             System.out.println("Documento salvo com ID: " + savedDocument.getId());
             System.out.println("Nome do arquivo: " + savedDocument.getFilename());
 

@@ -1,3 +1,4 @@
+// java
 package br.com.cesar.jira_ai_integration.config;
 
 import java.util.Arrays;
@@ -23,36 +24,37 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(Arrays.asList(
-            "https://redesigned-space-dollop-g45xprpqx4xg2w5wq-4200.app.github.dev",
-            "http://localhost:4200",
-            "http://localhost:8080"
-        ));
+        // Em produção, prefira listar os origins explicitamente:
+        // configuration.setAllowedOrigins(Arrays.asList("https://seu-dominio.com", "http://localhost:4200"));
+
+        // Permite padrões com curingas e é compatível com allowCredentials(true)
+        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); 
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
-  @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
-      http
-          .csrf(csrf -> csrf.disable())
-          .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-          .authorizeHttpRequests(auth -> auth
-              .requestMatchers( "/api/auth/**").permitAll()
-              .anyRequest().permitAll() // Qualquer outro endpoint requer autenticação
-          )
-          .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-      return http.build();
-  }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .anyRequest().permitAll()
+                )
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-   @Bean
-   public PasswordEncoder passwordEncoder() {
-       return new BCryptPasswordEncoder();
-   }
+        return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

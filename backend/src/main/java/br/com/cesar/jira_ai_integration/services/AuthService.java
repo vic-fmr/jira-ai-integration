@@ -30,7 +30,7 @@ public class AuthService {
         return tokenService.generateToken(saved.getUsername());
     }
 
-    public String authenticate(AuthRequestDTO dto) {
+    public String login(AuthRequestDTO dto) {
         User user = userRepository.findByUsername(dto.username())
                 .orElseThrow(() -> new AuthenticationFailedException("Usuário ou senha inválidos"));
 
