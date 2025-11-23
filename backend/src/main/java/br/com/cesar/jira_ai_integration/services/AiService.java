@@ -1,6 +1,5 @@
 package br.com.cesar.jira_ai_integration.services;
 
-import br.com.cesar.jira_ai_integration.repositories.DocumentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatResponse;
