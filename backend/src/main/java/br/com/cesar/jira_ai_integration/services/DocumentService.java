@@ -22,7 +22,7 @@ public class DocumentService {
     @Transactional
     public Document uploadAndRead(MultipartFile file/*, User currentUser*/) throws Exception {
         Document document = upload(file/*, currentUser*/);
-        ChatResponse resumoResponse = aiService.read(file);
+        String resumoResponse = aiService.read(file);
 
         System.out.println("Resumo do documento: " + resumoResponse);
         return document;

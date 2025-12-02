@@ -20,7 +20,7 @@ public class AiService {
 
     private final GoogleGenAiChatModel chatModel;
 
-    public ChatResponse read(MultipartFile file) throws IOException {
+    public String read(MultipartFile file) throws IOException {
 
         // 1. Criação de um ByteArrayResource a partir dos bytes
         // Este objeto implementa a interface Resource
@@ -43,7 +43,7 @@ public class AiService {
                 .media(List.of(new Media(mimeType, resource)))
                 .build();
 
-        return this.chatModel.call(new Prompt(List.of(userMessage)));
+        return this.chatModel.call(new Prompt(List.of(userMessage))).getResult().getOutput().getText();
     }
 
 
