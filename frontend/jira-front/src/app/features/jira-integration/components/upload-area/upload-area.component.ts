@@ -1,8 +1,6 @@
-import { Component, Output, EventEmitter, signal, inject, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { JiraApiService } from '../../services/jira-api.service';
-import { JiraProject, UploadEvent } from '../../models/jira-ia.models';
 
 @Component({
   selector: 'app-upload-area',
@@ -19,29 +17,27 @@ import { JiraProject, UploadEvent } from '../../models/jira-ia.models';
 
         <div class="mb-8 max-w-md mx-auto">
           <label class="block text-sm font-medium text-slate-700 mb-2">
-            Selecione o Projeto de Destino <span class="text-red-500">*</span>
+            Chave do Projeto Jira <span class="text-red-500">*</span>
           </label>
           <div class="relative">
-            <select
-              [(ngModel)]="selectedProjectId"
-              class="block w-full rounded-lg border-slate-300 bg-white py-3 pl-4 pr-10 text-slate-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border"
+            <input
+              type="text"
+              [(ngModel)]="projectKey"
+              placeholder="Ex: PROJ, WEB, DS"
+              class="block w-full rounded-lg border-slate-300 bg-white py-3 px-4 text-slate-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border uppercase placeholder:normal-case"
               [class.border-red-300]="showError()"
-            >
-              <option value="" disabled selected>Escolha um projeto...</option>
-              @for (project of projects(); track project.id) {
-                <option [value]="project.id">
-                  [{{ project.key }}] {{ project.name }}
-                </option>
-              }
-            </select>
-            @if (projects().length === 0) {
-              <div class="absolute right-3 top-3.5">
-                <div class="animate-spin h-4 w-4 border-2 border-blue-500 rounded-full border-t-transparent"></div>
-              </div>
-            }
+              (input)="showError.set(false)"
+            />
+            
+            <p class="mt-2 text-xs text-slate-500">
+              Digite a chave do projeto onde as tarefas serão criadas.
+            </p>
           </div>
+          
           @if (showError()) {
-            <p class="mt-1 text-sm text-red-500">Por favor, selecione um projeto antes de enviar.</p>
+            <p class="mt-1 text-sm text-red-500 font-medium">
+              A chave do projeto é obrigatória.
+            </p>
           }
         </div>
         
@@ -103,25 +99,14 @@ import { JiraProject, UploadEvent } from '../../models/jira-ia.models';
     </div>
   `
 })
-export class UploadAreaComponent implements OnInit {
-  @Output() fileUpload = new EventEmitter<File>(); 
+export class UploadAreaComponent {
+  @Output() fileUpload = new EventEmitter<File>();
   
-  // Futuramente:
-  // @Output() uploadStart = new EventEmitter<UploadEvent>();
-
-  private jiraService = inject(JiraApiService);
+  // Agora é apenas uma string simples
+  projectKey = signal<string>('');
   
-  projects = signal<JiraProject[]>([]);
-  selectedProjectId = signal<string>('');
   isDragging = signal(false);
   showError = signal(false);
-
-  ngOnInit() {
-    // Carrega os projetos ao iniciar o componente
-    this.jiraService.getProjects().subscribe(data => {
-      this.projects.set(data);
-    });
-  }
 
   handleDragOver(event: DragEvent): void { event.preventDefault(); this.isDragging.set(true); }
   handleDragLeave(): void { this.isDragging.set(false); }
@@ -139,21 +124,34 @@ export class UploadAreaComponent implements OnInit {
     this.processFile(file);
   }
 
-  // Validação centralizada
   processFile(file: File | undefined): void {
     if (!file || !this.isValidFile(file)) return;
 
-    if (!this.selectedProjectId()) {
+    // Validação: Campo de texto não pode estar vazio
+    if (!this.projectKey() || this.projectKey().trim() === '') {
       this.showError.set(true);
-      // Opcional: Vibrar ou focar no select
       return;
     }
 
+    /* FUTURO: AQUI ENTRARÁ A VALIDAÇÃO COM O BACKEND
+       Exemplo:
+       this.jiraService.validateProject(this.projectKey()).subscribe(exists => {
+          if (exists) {
+             this.fileUpload.emit(file);
+          } else {
+             this.errorMsg.set('Projeto não encontrado no Jira');
+          }
+       })
+    */
+
     this.showError.set(false);
-    console.log('Arquivo selecionado:', file.name);
-    console.log('Projeto destino:', this.selectedProjectId());
     
-    // Emite o arquivo para o Pai começar o processamento
+    // Convertendo para uppercase para padronizar antes de enviar
+    const formattedKey = this.projectKey().toUpperCase();
+    console.log('Arquivo:', file.name, '| Projeto:', formattedKey);
+    
+    // Por enquanto emitimos apenas o arquivo para manter compatibilidade
+    // Futuramente você pode mudar o Output para emitir { file, projectKey }
     this.fileUpload.emit(file);
   }
 
@@ -163,7 +161,7 @@ export class UploadAreaComponent implements OnInit {
 
   getUploadAreaClasses(): string {
     const base = 'relative border-2 border-dashed rounded-2xl p-16 transition-all duration-200 flex flex-col items-center bg-white';
-    // Adiciona feedback visual de erro na borda se tentar enviar sem projeto
+    
     if (this.showError()) return `${base} border-red-300 bg-red-50`;
     
     return this.isDragging() ? `${base} border-blue-500 bg-blue-50` : `${base} border-slate-300 hover:border-slate-400 hover:bg-slate-50`;
