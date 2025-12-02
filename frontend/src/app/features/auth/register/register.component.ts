@@ -23,23 +23,15 @@ import { AuthService } from '../../../core/services/auth.service';
       <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form class="space-y-6" (ngSubmit)="onSubmit()">
-            
-            <div>
-              <label class="block text-sm font-medium text-slate-700">Nome Completo</label>
-              <div class="mt-1">
-                <input name="name" type="text" required [(ngModel)]="name"
-                  class="block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-              </div>
-            </div>
 
             <div>
-              <label class="block text-sm font-medium text-slate-700">Email</label>
+              <label class="block text-sm font-medium text-slate-700">Nome de Usuário</label>
               <div class="mt-1">
-                <input name="email" type="email" required [(ngModel)]="email"
+                <input name="username" type="text" required [(ngModel)]="username"
                   class="block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  [class.border-red-300]="error() && error().includes('email')"
-                >
+                  placeholder="Ex: joaosilva123">
               </div>
+              <p class="mt-1 text-xs text-slate-500">Será usado para fazer login no sistema</p>
             </div>
 
             <div>
@@ -55,7 +47,7 @@ import { AuthService } from '../../../core/services/auth.service';
               <div class="mt-1">
                 <input name="confirmPassword" type="password" required [(ngModel)]="confirmPassword"
                   class="block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  [class.border-red-300]="error() && error().includes('senhas')" 
+                  [class.border-red-300]="error() && error().includes('senhas')"
                 >
               </div>
             </div>
@@ -83,22 +75,20 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class RegisterComponent {
   authService = inject(AuthService);
-  
-  name = '';
-  email = '';
+
+  username = '';
   password = '';
   confirmPassword = '';
-  
+
   isLoading = signal(false);
   error = signal('');
 
   onSubmit() {
-    this.error.set(''); // Limpa erros anteriores
+    this.error.set('');
 
-    // 1. Validação de formato de Email (NOVO)
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailPattern.test(this.email)) {
-      this.error.set('Por favor, insira um endereço de email válido.');
+    // 1. Validação de username
+    if (this.username.length < 3) {
+      this.error.set('O nome de usuário deve ter pelo menos 3 caracteres.');
       return;
     }
 
@@ -116,17 +106,20 @@ export class RegisterComponent {
 
     this.isLoading.set(true);
 
-    this.authService.register({ 
-      name: this.name, 
-      email: this.email, 
-      password: this.password 
+    this.authService.register({
+      username: this.username,
+      password: this.password
     }).subscribe({
       next: () => {
         this.isLoading.set(false);
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.error.set('Erro ao criar conta. Tente novamente.');
+        if (err.status === 409 || err.error?.message?.includes('já existe')) {
+          this.error.set('Este nome de usuário já está em uso.');
+        } else {
+          this.error.set('Erro ao criar conta. Tente novamente.');
+        }
       }
     });
   }

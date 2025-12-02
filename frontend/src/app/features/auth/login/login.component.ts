@@ -23,11 +23,11 @@ import { AuthService } from '../../../core/services/auth.service';
       <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form class="space-y-6" (ngSubmit)="onSubmit()">
-            
+
             <div>
-              <label for="email" class="block text-sm font-medium text-slate-700">Email</label>
+              <label for="username" class="block text-sm font-medium text-slate-700">Nome de Usuário</label>
               <div class="mt-1">
-                <input id="email" name="email" type="email" autocomplete="email" required [(ngModel)]="email"
+                <input id="username" name="username" type="text" autocomplete="username" required [(ngModel)]="username"
                   class="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
               </div>
             </div>
@@ -51,7 +51,7 @@ import { AuthService } from '../../../core/services/auth.service';
                 }
               </button>
             </div>
-            
+
             @if (error()) {
               <div class="bg-red-50 text-red-700 p-3 rounded text-sm text-center">
                 {{ error() }}
@@ -65,8 +65,8 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class LoginComponent {
   authService = inject(AuthService);
-  
-  email = '';
+
+  username = '';
   password = '';
   isLoading = signal(false);
   error = signal('');
@@ -74,15 +74,15 @@ export class LoginComponent {
   onSubmit() {
     this.isLoading.set(true);
     this.error.set('');
-    
-    this.authService.login({ email: this.email, password: this.password })
+
+    this.authService.login({ username: this.username, password: this.password })
       .subscribe({
         next: () => {
           // O redirecionamento acontece no service
           this.isLoading.set(false);
         },
         error: (err) => {
-          this.error.set('Email ou senha inválidos');
+          this.error.set('Usuário ou senha inválidos');
           this.isLoading.set(false);
         }
       });

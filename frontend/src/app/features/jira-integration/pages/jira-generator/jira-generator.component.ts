@@ -1,12 +1,14 @@
-import { Component, signal, inject } from '@angular/core'; // Adicione inject
+// noinspection JSUnusedGlobalSymbols
+
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UploadAreaComponent } from '../../components/upload-area/upload-area.component';
 import { ProcessingStateComponent } from '../../components/processing-state/processing-state.component';
 import { ReviewStageComponent } from '../../components/review-stage/review-stage.component';
 import { SuccessStateComponent } from '../../components/success-state/success-state.component';
 
-import { Epic, ProcessedDocument, AppState } from '../../models/jira-ia.models';
-import { JiraApiService } from '../../services/jira-api.service'; // <--- IMPORTANTE
+import { Epic, ProcessedDocument, AppState, UploadEvent } from '../../models/jira-ia.models';
+import { JiraApiService } from '../../services/jira-api.service';
 
 @Component({
   selector: 'app-jira-generator',
@@ -20,7 +22,7 @@ import { JiraApiService } from '../../services/jira-api.service'; // <--- IMPORT
   ],
   template: `
     <div class="bg-slate-50 min-h-full">
-      
+
       @if (state() === 'upload') {
         <app-upload-area (fileUpload)="handleFileUpload($event)" />
       }
@@ -48,16 +50,17 @@ export class JiraGeneratorComponent {
   state = signal<AppState>('upload');
   currentFile = signal<File | null>(null);
   currentFileName = signal<string>('');
+  currentProjectKey = signal<string>('');
   processedData = signal<Epic | null>(null);
 
-  handleFileUpload(file: File): void {
-    this.currentFile.set(file);
-    this.currentFileName.set(file.name);
+  handleFileUpload(event: UploadEvent): void {
+    this.currentFile.set(event.file);
+    this.currentFileName.set(event.file.name);
+    this.currentProjectKey.set(event.projectId);
     this.state.set('processing');
 
     // CONEXÃO COM BACKEND (via Service)
-    // Aqui troquei o setTimeout manual pelo Observable do serviço
-    this.jiraService.analyzeDocument(file).subscribe({
+    this.jiraService.analyzeDocument(event.file, event.projectId).subscribe({
       next: (data) => {
         this.processedData.set(data);
         this.state.set('review');
@@ -72,7 +75,7 @@ export class JiraGeneratorComponent {
 
   handleApprove(epic: Epic): void {
     // CONEXÃO COM BACKEND (via Service)
-    this.jiraService.syncWithJira(epic).subscribe({
+    this.jiraService.syncWithJira(epic, this.currentProjectKey()).subscribe({
       next: (response) => {
         console.log('Sucesso:', response);
         this.state.set('success');
@@ -84,6 +87,7 @@ export class JiraGeneratorComponent {
   handleNewUpload(): void {
     this.currentFile.set(null);
     this.currentFileName.set('');
+    this.currentProjectKey.set('');
     this.processedData.set(null);
     this.state.set('upload');
   }

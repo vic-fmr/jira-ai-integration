@@ -1,7 +1,7 @@
 package br.com.cesar.jira_ai_integration.services;
 
-
-import br.com.cesar.jira_ai_integration.dtos.FullIssueRequestDTO;
+import br.com.cesar.jira_ai_integration.dtos.PlanningAnalysisDTO;
+import br.com.cesar.jira_ai_integration.dtos.UserStoryDTO; // Importe o novo DTO
 import br.com.cesar.jira_ai_integration.dtos.JiraCreatedResponseDTO;
 import br.com.cesar.jira_ai_integration.dtos.JiraIssueResponseDTO;
 import br.com.cesar.jira_ai_integration.dtos.JiraPayloadDTO;
@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 @Service
 public class JiraService {
@@ -21,7 +23,6 @@ public class JiraService {
                        @Value("${jira.username}") String username,
                        @Value("${jira.token}") String token) {
 
-        // Codifica Email:Token em Base64 para o cabeçalho Authorization
         String authHeader = "Basic " + Base64.getEncoder()
                 .encodeToString((username + ":" + token).getBytes());
 
@@ -34,45 +35,50 @@ public class JiraService {
 
     public JiraIssueResponseDTO getIssue(String issueKey) {
         return restClient.get()
-                // Endpoint da API v3 do Jira
                 .uri("/rest/api/3/issue/{key}", issueKey)
                 .retrieve()
                 .body(JiraIssueResponseDTO.class);
     }
 
-    public JiraCreatedResponseDTO createIssueWithSubtasks(FullIssueRequestDTO request) {
+    /**
+     * Cria múltiplas histórias e suas subtarefas baseadas na análise da IA.
+     * @param analysis O resultado da IA contendo a lista de histórias.
+     * @param projectKey A chave do projeto Jira (ex: "PROJ").
+     * @return Lista de respostas das Issues pais criadas.
+     */
+    public void createIssuesFromPlanning(PlanningAnalysisDTO planning) {
+        String projectKey = planning.projectKey();
 
-        // 1. CRIAÇÃO DA ISSUE PRINCIPAL (PARENT)
-        JiraCreatedResponseDTO parentIssue = createParentIssue(
-                request.projectKey(),
-                request.title(),
-                request.description(),
-                request.priority()
-        );
+        // Itera sobre cada User Story vinda do frontend
+        for (UserStoryDTO story : planning.stories()) {
 
-        // 2. CRIAÇÃO DAS SUBTAREFAS (CHILDREN)
-        if (request.subtaskTitles() != null && !request.subtaskTitles().isEmpty()) {
-            String parentKey = parentIssue.key(); // Ex: PROJ-15
+            // 1. Cria a Issue Pai (User Story)
+            JiraCreatedResponseDTO parentIssue = createParentIssue(projectKey, story);
 
-            for (String subtaskTitle : request.subtaskTitles()) {
-                createSubtask(parentKey, subtaskTitle);
+            // 2. Cria as Subtarefas vinculadas
+            if (story.subtasks() != null && !story.subtasks().isEmpty()) {
+                String parentKey = parentIssue.key();
+                for (String subtaskTitle : story.subtasks()) {
+                    createSubtask(parentKey, subtaskTitle);
+                }
             }
         }
-
-        return parentIssue;
     }
 
-    private JiraCreatedResponseDTO createParentIssue(String projectKey, String title, String description, String priorityName) {
+    private JiraCreatedResponseDTO createParentIssue(String projectKey, UserStoryDTO story) {
 
-        // Converte o texto simples para o formato ADF
-        Object adfDescription = JiraPayloadDTO.createAdfDescription(description);
+        // Formata uma descrição rica com os dados da IA
+        String richDescription = buildFormattedDescription(story);
+
+        // Converte o texto para ADF (Atlassian Document Format)
+        Object adfDescription = JiraPayloadDTO.createAdfDescription(richDescription);
 
         var project = new JiraPayloadDTO.Project(projectKey);
-        var issueType = new JiraPayloadDTO.IssueType("Task"); // Tipo de Issue principal
-        var priority = new JiraPayloadDTO.Priority(priorityName);
+        // Tenta criar como "Story", se seu Jira não tiver esse tipo, mude para "Task"
+        var issueType = new JiraPayloadDTO.IssueType("Story");
+        var priority = new JiraPayloadDTO.Priority(story.priority());
 
-        // Note que o campo 'parent' é nulo aqui.
-        var fields = new JiraPayloadDTO.Fields(project, title, issueType, adfDescription, priority, null);
+        var fields = new JiraPayloadDTO.Fields(project, story.title(), issueType, adfDescription, priority, null);
         var payload = new JiraPayloadDTO(fields);
 
         return restClient.post()
@@ -84,22 +90,48 @@ public class JiraService {
     }
 
     private void createSubtask(String parentKey, String subtaskTitle) {
+        var project = new JiraPayloadDTO.Project(parentKey.split("-")[0]);
+        var issueType = new JiraPayloadDTO.IssueType("Subtask");
+        var parent = new JiraPayloadDTO.Parent(parentKey);
+        var priority = new JiraPayloadDTO.Priority("Medium"); // Default para subtask
 
-        var project = new JiraPayloadDTO.Project(parentKey.split("-")[0]); // Pega o PROJETO do parent key (PROJ)
-        var issueType = new JiraPayloadDTO.IssueType("Subtask"); // Tipo de Issue deve ser Subtarefa
-        var parent = new JiraPayloadDTO.Parent(parentKey); // Vincula ao pai
-        var priority = new JiraPayloadDTO.Priority("Low");
-
-        // Para simplificar, subtasks não terão descrição ou prioridade neste exemplo
         var fields = new JiraPayloadDTO.Fields(project, subtaskTitle, issueType, null, priority , parent);
         var payload = new JiraPayloadDTO(fields);
 
-        // O retorno da subtarefa não é usado, mas a chamada deve ocorrer.
         restClient.post()
                 .uri("/rest/api/3/issue")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(payload)
                 .retrieve()
-                .toBodilessEntity(); // Não precisamos mapear o corpo
+                .toBodilessEntity();
+    }
+
+    // Helper para montar o texto da descrição
+    private String buildFormattedDescription(UserStoryDTO story) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("h3. User Story\n").append(story.userStoryFormat()).append("\n\n");
+
+        if (story.acceptanceCriteria() != null && !story.acceptanceCriteria().isEmpty()) {
+            sb.append("h3. Acceptance Criteria\n");
+            story.acceptanceCriteria().forEach(c -> sb.append("- ").append(c).append("\n"));
+            sb.append("\n");
+        }
+
+        if (story.complexity() != null) {
+            sb.append("*Complexity:* ").append(story.complexity()).append("\n");
+        }
+
+        if (story.dependencies() != null && !story.dependencies().isEmpty()) {
+            sb.append("*Dependencies:* ").append(String.join(", ", story.dependencies())).append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    public Object getProjects() {
+        return restClient.get()
+                .uri("/rest/api/3/project")
+                .retrieve()
+                .body(Object.class);
     }
 }
