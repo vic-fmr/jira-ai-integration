@@ -1,0 +1,31 @@
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-processing-state',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <div class="flex items-center justify-center min-h-[600px] p-8">
+      <div class="text-center max-w-md">
+        <div class="relative mb-8 flex items-center justify-center">
+          <div class="absolute w-24 h-24 bg-blue-100 rounded-full animate-ping opacity-20"></div>
+          <div class="relative w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center">
+             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white animate-pulse"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          </div>
+        </div>
+        <h2 class="text-slate-900 mb-3 text-xl font-bold">Processando Documento</h2>
+        <p class="text-slate-600 mb-2">A IA está analisando <span class="font-semibold text-slate-900">{{ fileName }}</span></p>
+        
+        <div class="mt-12 space-y-3 text-left pl-12">
+          <div class="flex items-center gap-3 text-sm"><div class="w-2 h-2 bg-green-500 rounded-full"></div><span>Leitura do documento</span></div>
+          <div class="flex items-center gap-3 text-sm"><div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div><span>Análise e extração</span></div>
+          <div class="flex items-center gap-3 text-sm"><div class="w-2 h-2 bg-slate-300 rounded-full"></div><span>Estruturação</span></div>
+        </div>
+      </div>
+    </div>
+  `
+})
+export class ProcessingStateComponent {
+  @Input() fileName: string = '';
+}
