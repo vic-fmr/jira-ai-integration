@@ -1,30 +1,68 @@
-import { Component, Output, EventEmitter, signal } from '@angular/core';
+import { Component, Output, EventEmitter, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { JiraApiService } from '../../services/jira-api.service';
+import { JiraProject, UploadEvent } from '../../models/jira-ia.models';
 
 @Component({
   selector: 'app-upload-area',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   template: `
     <div class="flex items-center justify-center min-h-[600px] p-8">
       <div class="w-full max-w-3xl">
         
-        <div class="text-center mb-12">
-          <h1 class="text-slate-900 mb-3 text-2xl font-bold">Jira IA</h1>
-          <p class="text-slate-600">Transforme documentos de requisitos em Épicos, Histórias e Tarefas automaticamente</p>
+        <div class="text-center mb-8">
+          <h1 class="text-slate-900 mb-3 text-2xl font-bold">Jira IA Generator</h1>
+          <p class="text-slate-600">Transforme requisitos em tarefas do Jira automaticamente</p>
+        </div>
+
+        <div class="mb-8 max-w-md mx-auto">
+          <label class="block text-sm font-medium text-slate-700 mb-2">
+            Selecione o Projeto de Destino <span class="text-red-500">*</span>
+          </label>
+          <div class="relative">
+            <select
+              [(ngModel)]="selectedProjectId"
+              class="block w-full rounded-lg border-slate-300 bg-white py-3 pl-4 pr-10 text-slate-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border"
+              [class.border-red-300]="showError()"
+            >
+              <option value="" disabled selected>Escolha um projeto...</option>
+              @for (project of projects(); track project.id) {
+                <option [value]="project.id">
+                  [{{ project.key }}] {{ project.name }}
+                </option>
+              }
+            </select>
+            @if (projects().length === 0) {
+              <div class="absolute right-3 top-3.5">
+                <div class="animate-spin h-4 w-4 border-2 border-blue-500 rounded-full border-t-transparent"></div>
+              </div>
+            }
+          </div>
+          @if (showError()) {
+            <p class="mt-1 text-sm text-red-500">Por favor, selecione um projeto antes de enviar.</p>
+          }
         </div>
         
-        <div (dragover)="handleDragOver($event)" (dragleave)="handleDragLeave()" (drop)="handleDrop($event)"
-          [class]="getUploadAreaClasses()">
+        <div 
+          (dragover)="handleDragOver($event)" 
+          (dragleave)="handleDragLeave()" 
+          (drop)="handleDrop($event)"
+          [class]="getUploadAreaClasses()"
+        >
           <input #fileInput type="file" class="hidden" accept=".pdf,.docx,.doc,.txt" (change)="handleFileSelect($event)" />
           
-          <label class="flex flex-col items-center justify-center cursor-pointer" (click)="fileInput.click()">
+          <label class="flex flex-col items-center justify-center cursor-pointer w-full" (click)="fileInput.click()">
             <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
             </div>
-            <h2 class="text-slate-900 mb-2 font-semibold">Arraste e solte seu documento aqui</h2>
-            <p class="text-slate-500 mb-6">ou clique para selecionar um arquivo</p>
-            <button type="button" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">Selecionar Arquivo</button>
+            <h2 class="text-slate-900 mb-2 font-semibold">Arraste e solte seu documento</h2>
+            <p class="text-slate-500 mb-6">ou clique para selecionar</p>
+            
+            <div class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
+              Selecionar Arquivo
+            </div>
           </label>
         </div>
 
@@ -65,9 +103,25 @@ import { CommonModule } from '@angular/common';
     </div>
   `
 })
-export class UploadAreaComponent {
-  @Output() fileUpload = new EventEmitter<File>();
+export class UploadAreaComponent implements OnInit {
+  @Output() fileUpload = new EventEmitter<File>(); 
+  
+  // Futuramente:
+  // @Output() uploadStart = new EventEmitter<UploadEvent>();
+
+  private jiraService = inject(JiraApiService);
+  
+  projects = signal<JiraProject[]>([]);
+  selectedProjectId = signal<string>('');
   isDragging = signal(false);
+  showError = signal(false);
+
+  ngOnInit() {
+    // Carrega os projetos ao iniciar o componente
+    this.jiraService.getProjects().subscribe(data => {
+      this.projects.set(data);
+    });
+  }
 
   handleDragOver(event: DragEvent): void { event.preventDefault(); this.isDragging.set(true); }
   handleDragLeave(): void { this.isDragging.set(false); }
@@ -76,13 +130,31 @@ export class UploadAreaComponent {
     event.preventDefault();
     this.isDragging.set(false);
     const file = event.dataTransfer?.files[0];
-    if (file && this.isValidFile(file)) this.fileUpload.emit(file);
+    this.processFile(file);
   }
 
   handleFileSelect(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
-    if (file && this.isValidFile(file)) this.fileUpload.emit(file);
+    this.processFile(file);
+  }
+
+  // Validação centralizada
+  processFile(file: File | undefined): void {
+    if (!file || !this.isValidFile(file)) return;
+
+    if (!this.selectedProjectId()) {
+      this.showError.set(true);
+      // Opcional: Vibrar ou focar no select
+      return;
+    }
+
+    this.showError.set(false);
+    console.log('Arquivo selecionado:', file.name);
+    console.log('Projeto destino:', this.selectedProjectId());
+    
+    // Emite o arquivo para o Pai começar o processamento
+    this.fileUpload.emit(file);
   }
 
   isValidFile(file: File): boolean {
@@ -90,7 +162,10 @@ export class UploadAreaComponent {
   }
 
   getUploadAreaClasses(): string {
-    const base = 'relative border-2 border-dashed rounded-2xl p-16 transition-all duration-200 flex flex-col items-center';
-    return this.isDragging() ? `${base} border-blue-500 bg-blue-50` : `${base} border-slate-300 bg-white hover:border-slate-400 hover:bg-slate-50`;
+    const base = 'relative border-2 border-dashed rounded-2xl p-16 transition-all duration-200 flex flex-col items-center bg-white';
+    // Adiciona feedback visual de erro na borda se tentar enviar sem projeto
+    if (this.showError()) return `${base} border-red-300 bg-red-50`;
+    
+    return this.isDragging() ? `${base} border-blue-500 bg-blue-50` : `${base} border-slate-300 hover:border-slate-400 hover:bg-slate-50`;
   }
 }

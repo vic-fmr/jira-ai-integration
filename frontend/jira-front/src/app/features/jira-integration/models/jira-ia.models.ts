@@ -22,4 +22,16 @@ export interface ProcessedDocument {
   epic: Epic;
 }
 
+export interface JiraProject {
+  id: string;
+  key: string;  // Ex: "PROJ", "DEV"
+  name: string; // Ex: "Desenvolvimento Web", "Marketing"
+  avatarUrl?: string; // Opcional
+}
+
+export interface UploadEvent {
+  file: File;
+  projectId: string;
+}
+
 export type AppState = 'upload' | 'processing' | 'review' | 'success';  

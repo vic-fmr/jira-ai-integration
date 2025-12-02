@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core'; // <--- Mudou de Component para Injectable
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, delay } from 'rxjs';
-import { Epic, ProcessedDocument } from '../models/jira-ia.models';
+import { Epic, ProcessedDocument, JiraProject } from '../models/jira-ia.models';
 
 // URL base do Backend
 const API_URL = 'http://localhost:8080/api'; 
@@ -21,6 +21,21 @@ export class JiraApiService {
     console.log('Enviando JSON final para o Jira:', epic);
     return of({ success: true, jiraLink: 'https://jira.com/browse/EPIC-123' }).pipe(delay(1000));
   }
+
+  getProjects(): Observable<JiraProject[]> {
+    // --- CÓDIGO FUTURO ---
+    // return this.http.get<JiraProject[]>(`${API_URL}/jira/projects`);
+
+    // --- CÓDIGO MOCK (SIMULAÇÃO) ---
+    const MOCK_PROJECTS: JiraProject[] = [
+      { id: '10001', key: 'DS', name: 'Design System' },
+      { id: '10002', key: 'WEB', name: 'Plataforma Web 2.0' },
+      { id: '10003', key: 'MOB', name: 'App Mobile iOS' },
+      { id: '10004', key: 'INFRA', name: 'Infraestrutura Cloud' }
+    ];
+    return of(MOCK_PROJECTS).pipe(delay(500)); // Simula delay de rede
+  }
+
 
   getHistory(): Observable<ProcessedDocument[]> {
     return of([]); 
