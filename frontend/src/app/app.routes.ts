@@ -18,6 +18,9 @@ export const routes: Routes = [
     ]
   },
 
+  // Rota padrão redireciona para login
+  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
+
   // Rotas Privadas (Protegidas pelo Guard)
   {
     path: '',
@@ -27,8 +30,7 @@ export const routes: Routes = [
       {
         path: 'jira',
         loadChildren: () => import('./features/jira-integration/jira.routes').then(m => m.JIRA_ROUTES)
-      },
-      { path: '', redirectTo: 'jira', pathMatch: 'full' }
+      }
     ]
   },
 
