@@ -11,17 +11,6 @@ import { SidebarComponent } from '../../shared/components/sidebar/sidebar.compon
     RouterOutlet,
     SidebarComponent
   ],
-  template: `
-    <div class="flex min-h-screen bg-slate-50">
-      
-      <app-sidebar></app-sidebar>
-
-      <main class="flex-1 ml-16 w-full p-6">
-        
-        <router-outlet></router-outlet>
-        
-      </main>
-    </div>
-  `
+  templateUrl: './main-layout.component.html'
 })
 export class MainLayoutComponent {}
