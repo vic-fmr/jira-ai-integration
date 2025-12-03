@@ -10,6 +10,7 @@ import { SuccessStateComponent } from '../../components/success-state/success-st
 import { Epic, ProcessedDocument, AppState, UploadEvent } from '../../models/jira-ia.models';
 import { JiraApiService } from '../../services/jira-api.service';
 
+// @ts-ignore
 @Component({
   selector: 'app-jira-generator',
   standalone: true,
@@ -24,21 +25,20 @@ import { JiraApiService } from '../../services/jira-api.service';
     <div class="bg-slate-50 min-h-full">
 
       @if (state() === 'upload') {
-        <app-upload-area (fileUpload)="handleFileUpload($event)" />
+        <app-upload-area (fileUpload)="handleFileUpload($event)"></app-upload-area>
       }
       @if (state() === 'processing') {
-        <app-processing-state [fileName]="currentFileName()" />
+        <app-processing-state [fileName]="currentFileName()"></app-processing-state>
       }
       @if (state() === 'review' && processedData()) {
         <app-review-stage
           [epic]="processedData()!"
           [isReadOnly]="false"
-          (approve)="handleApprove($event)"
-          (cancel)="handleNewUpload()"
-        />
+          [projectKey]="currentProjectKey()"  (approveSuccess)="handleSyncSuccess()"
+          (cancel)="handleNewUpload()"></app-review-stage>
       }
       @if (state() === 'success') {
-        <app-success-state (newUpload)="handleNewUpload()" />
+        <app-success-state (newUpload)="handleNewUpload()"></app-success-state>
       }
     </div>
   `
@@ -73,15 +73,9 @@ export class JiraGeneratorComponent {
     });
   }
 
-  handleApprove(epic: Epic): void {
-    // CONEXÃO COM BACKEND (via Service)
-    this.jiraService.syncWithJira(epic, this.currentProjectKey()).subscribe({
-      next: (response) => {
-        console.log('Sucesso:', response);
-        this.state.set('success');
-      },
-      error: (err) => console.error('Erro ao sincronizar:', err)
-    });
+  handleSyncSuccess(): void {
+    console.log('Sincronização concluída no componente filho. Mudando estado para sucesso.');
+    this.state.set('success');
   }
 
   handleNewUpload(): void {

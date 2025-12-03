@@ -1,8 +1,11 @@
-import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Epic, UserStory, Task } from '../../models/jira-ia.models';
+import { JiraApiService} from '../../services/jira-api.service';
+import { finalize } from 'rxjs';
 
+// @ts-ignore
 @Component({
   selector: 'app-review-stage',
   standalone: true,
@@ -180,15 +183,22 @@ import { Epic, UserStory, Task } from '../../models/jira-ia.models';
   `
 })
 export class ReviewStageComponent {
+  // **1. Injeção do Serviço:**
+  private jiraService = inject(JiraApiService);
+
+  // **Adicionado: Estado para feedback visual**
+  isSyncing = signal(false);
+
   @Input() set epic(value: Epic) {
     this.currentEpic.set(value);
-    // Expandir apenas a primeira história por padrão
     if (value.stories.length > 0) {
       this.expandedStories.set(new Set([value.stories[0].id]));
     }
   }
+  @Input() projectKey: string = '';
   @Input() isReadOnly: boolean = false;
-  @Output() approve = new EventEmitter<Epic>();
+  // O seu Output 'approve' pode ser mantido, mas a lógica de chamada vai para o onApprove local.
+  @Output() approveSuccess = new EventEmitter<void>(); // Se quiser emitir sucesso após a chamada.
   @Output() cancel = new EventEmitter<void>();
 
   currentEpic = signal<Epic>({ id: '', title: '', stories: [] });
@@ -283,7 +293,33 @@ export class ReviewStageComponent {
     }));
   }
 
-  onApprove() { this.approve.emit(this.currentEpic()); }
+  onApprove() {
+    if (this.isSyncing()) {
+      return; // Evita cliques duplicados
+    }
+
+    this.isSyncing.set(true); // Inicia o estado de loading
+
+
+    this.jiraService.syncWithJira(this.currentEpic(), this.projectKey)
+      .pipe(
+        // O `finalize` é ótimo para garantir que o estado de loading seja desligado, mesmo em erro.
+        finalize(() => this.isSyncing.set(false))
+      )
+      .subscribe({
+        next: (response) => {
+          console.log('Sincronização com Jira bem-sucedida!', response);
+          alert('As tarefas foram criadas no Jira com sucesso!');
+          this.approveSuccess.emit(); // Emite um evento de sucesso
+        },
+        error: (err) => {
+          console.error('Erro ao sincronizar com Jira:', err);
+          alert('Falha ao criar tarefas no Jira. Verifique o console.');
+          // Você pode querer reemitir o erro ou tratar de outra forma.
+        }
+      });
+  }
+
   onCancel() { this.cancel.emit(); }
 
   // Helpers UI

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UploadResponse } from '../models/document.model';
+import { UploadResponse } from '../../features/jira-integration/models/document.model';
 
 @Injectable({
   providedIn: 'root'

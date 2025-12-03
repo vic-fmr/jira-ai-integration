@@ -35,7 +35,8 @@ public class JiraController {
     @PostMapping("/issues")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PlanningAnalysisDTO> createIssues(@RequestBody PlanningAnalysisDTO request) {
-        // Agora chamamos o método que processa a lista de histórias
+        log.info("Criando múltiplas issues no Jira para o projeto: {}", request.projectKey());
+        jiraService.createIssuesFromPlanning(request);
         return ResponseEntity.ok(request);
     }
 
