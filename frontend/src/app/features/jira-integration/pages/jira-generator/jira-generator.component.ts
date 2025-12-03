@@ -21,27 +21,7 @@ import { JiraApiService } from '../../services/jira-api.service';
     ReviewStageComponent,
     SuccessStateComponent
   ],
-  template: `
-    <div class="bg-slate-50 min-h-full">
-
-      @if (state() === 'upload') {
-        <app-upload-area (fileUpload)="handleFileUpload($event)"></app-upload-area>
-      }
-      @if (state() === 'processing') {
-        <app-processing-state [fileName]="currentFileName()"></app-processing-state>
-      }
-      @if (state() === 'review' && processedData()) {
-        <app-review-stage
-          [epic]="processedData()!"
-          [isReadOnly]="false"
-          [projectKey]="currentProjectKey()"  (approveSuccess)="handleSyncSuccess()"
-          (cancel)="handleNewUpload()"></app-review-stage>
-      }
-      @if (state() === 'success') {
-        <app-success-state (newUpload)="handleNewUpload()"></app-success-state>
-      }
-    </div>
-  `
+  templateUrl: './jira-generator.component.html'
 })
 export class JiraGeneratorComponent {
   // Injeção do Serviço

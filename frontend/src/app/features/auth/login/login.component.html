@@ -1,0 +1,55 @@
+<div class="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    
+    <div class="flex justify-center mb-6">
+       <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">JI</div>
+    </div>
+    
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-900">Entre na sua conta</h2>
+    <p class="mt-2 text-center text-sm text-slate-600">
+      Ou <a routerLink="/auth/register" class="font-medium text-blue-600 hover:text-blue-500">crie uma nova conta</a>
+    </p>
+  </div>
+
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      
+      <form class="space-y-6" (ngSubmit)="onSubmit()">
+
+        <div>
+          <label for="username" class="block text-sm font-medium text-slate-700">Nome de Usuário</label>
+          <div class="mt-1">
+            <input id="username" name="username" type="text" autocomplete="username" required 
+                   [(ngModel)]="username"
+                   class="input-login"> </div>
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-slate-700">Senha</label>
+          <div class="mt-1">
+            <input id="password" name="password" type="password" autocomplete="current-password" required 
+                   [(ngModel)]="password"
+                   class="input-login"> </div>
+        </div>
+
+        <div>
+          <button type="submit" [disabled]="isLoading()" class="btn-primary"> @if (isLoading()) {
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Entrando...
+            } @else {
+              Entrar
+            }
+          </button>
+        </div>
+
+        @if (error()) {
+          <div class="error-box"> {{ error() }}
+          </div>
+        }
+      </form>
+    </div>
+  </div>
+</div>

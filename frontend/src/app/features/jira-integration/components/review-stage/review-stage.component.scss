@@ -1,0 +1,208 @@
+/* Container Principal */
+.review-container {
+  @apply min-h-screen bg-slate-50 p-8;
+}
+
+.max-w-wrapper {
+  @apply max-w-5xl mx-auto;
+}
+
+/* Header da Página */
+.page-header {
+  @apply mb-8;
+  
+  h1 {
+    @apply text-slate-900 mb-2 font-bold text-3xl;
+  }
+}
+
+/* Card do Épico (Topo) */
+.epic-card {
+  @apply bg-white rounded-xl border border-slate-200 p-6 mb-6 shadow-sm;
+
+  .epic-badge {
+    @apply px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs font-bold;
+  }
+
+  // Input gigante do título
+  .epic-title-input {
+    @apply w-full px-3 py-2 border-transparent hover:border-slate-300 focus:border-blue-500 rounded-lg text-slate-900 text-2xl font-bold bg-transparent transition-colors;
+  }
+
+  .epic-counter {
+    @apply text-sm text-slate-500 mt-2 px-3;
+  }
+}
+
+/* Lista de Histórias */
+.stories-list {
+  @apply space-y-6 mb-8;
+}
+
+/* Card da História Individual */
+.story-card {
+  @apply bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden transition-all hover:shadow-md;
+
+  /* Cabeçalho do Card (Clicável) */
+  .story-header {
+    @apply p-6 cursor-pointer hover:bg-slate-50;
+
+    .arrow-icon-wrapper {
+      @apply mt-1 text-slate-400;
+      
+      svg {
+        @apply transition-transform duration-200;
+      }
+    }
+
+    // Badges de Prioridade e Complexidade
+    .meta-badge {
+      @apply px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider;
+    }
+    
+    // Badge cinza específico
+    .badge-neutral {
+      @apply bg-slate-100 text-slate-600;
+    }
+
+    .story-title {
+      @apply text-lg font-semibold text-slate-800;
+    }
+
+    .btn-delete {
+      @apply p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-full;
+    }
+  }
+
+  /* Corpo Expandido */
+  .story-body {
+    @apply border-t border-slate-200 p-6 space-y-6 bg-slate-50/50;
+  }
+}
+
+/* Elementos de Formulário (Reutilizáveis) */
+.form-label {
+  @apply block text-xs font-semibold text-slate-500 uppercase mb-1;
+}
+
+.form-input {
+  @apply w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium;
+}
+
+.form-select {
+  @apply w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-sm;
+}
+
+.form-textarea {
+  @apply w-full px-3 py-2 border border-slate-300 rounded-lg text-sm text-slate-700 focus:ring-2 focus:ring-blue-500;
+}
+
+/* Seções de Lista (Critérios e Dependências) */
+.list-section {
+  @apply bg-white p-4 rounded-lg border border-slate-200;
+
+  .section-header {
+    @apply flex justify-between items-center mb-3;
+    
+    h4 {
+      @apply text-xs font-bold text-slate-500 uppercase;
+    }
+  }
+
+  .btn-add-text {
+    @apply text-xs text-blue-600 hover:underline;
+  }
+
+  // Itens da lista
+  li {
+    @apply flex gap-2;
+    
+    // Input transparente dentro da lista
+    input {
+      @apply flex-1 text-sm border-0 border-b border-transparent focus:border-blue-300 focus:ring-0 p-0 bg-transparent;
+    }
+  }
+
+  .btn-remove-item {
+    @apply text-slate-300 hover:text-red-500;
+  }
+}
+
+/* Subtarefas */
+.subtasks-container {
+  @apply bg-white rounded-lg border border-slate-200 divide-y divide-slate-100;
+
+  .subtask-row {
+    @apply flex items-center gap-3 p-3 hover:bg-slate-50;
+
+    .checkbox-mock {
+      @apply w-4 h-4 border-2 border-slate-300 rounded bg-slate-50;
+    }
+
+    input {
+      @apply flex-1 text-sm bg-transparent border-none focus:ring-0 p-0;
+    }
+  }
+
+  .btn-add-subtask {
+    @apply w-full py-2 text-sm text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors flex items-center justify-center gap-2;
+  }
+}
+
+
+/* Botão "Adicionar Nova História" (Pontilhado) */
+.btn-add-story {
+  // Layout e Espaçamento
+  @apply w-full flex items-center justify-center gap-3 py-6;
+  
+  // Estilo Visual (Borda, Fundo, Sombra)
+  @apply bg-white border-2 border-dashed border-slate-300 rounded-xl shadow-sm;
+  
+  // Texto e Transição
+  @apply text-slate-600 transition-colors;
+
+  // Estilo do texto interno (span)
+  span {
+    @apply font-medium;
+  }
+
+  // Estado Hover (Interação)
+  &:hover {
+    @apply border-blue-400 text-blue-600 bg-blue-50;
+  }
+}
+
+.sticky-footer {
+  // Posicionamento e Borda
+  @apply flex items-center justify-between gap-4 sticky bottom-0 z-10;
+  @apply bg-white border-t border-slate-200;
+  
+  // Margens e Arredondamento (O "truque" para colar no fundo e arredondar)
+  @apply p-6 -mx-8 -mb-8 rounded-t-2xl;
+  
+  // Sombra personalizada que você pediu
+  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+
+  // 1. Botão Cancelar/Voltar
+  .btn-cancel {
+    @apply flex items-center gap-2 px-6 py-3 rounded-lg transition-colors font-medium;
+    @apply text-slate-600 hover:text-slate-900 hover:bg-slate-100;
+  }
+
+  // 2. Grupo da Direita (Texto + Botão Aprovar)
+  .footer-right-group {
+    @apply flex items-center gap-3;
+
+    .stats-text {
+      @apply text-sm text-slate-600 font-medium;
+    }
+  }
+
+  // 3. Botão Aprovar
+  .btn-approve {
+    @apply flex items-center gap-2 px-8 py-3 rounded-lg transition-colors font-bold;
+    @apply bg-blue-600 text-white hover:bg-blue-700;
+    @apply shadow-lg shadow-blue-600/20;
+  }
+}
+
