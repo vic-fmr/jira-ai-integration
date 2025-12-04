@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Seus outros estilos globais podem vir abaixo */
+html, body { height: 100%; }

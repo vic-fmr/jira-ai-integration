@@ -1,0 +1,90 @@
+<div class="upload-container">
+  <div class="w-full max-w-3xl">
+
+    <div class="header-section">
+      <h1>Jira IA Generator</h1>
+      <p>Transforme requisitos em tarefas do Jira automaticamente</p>
+    </div>
+
+    <div class="project-key-wrapper">
+      <label>
+        Chave do Projeto Jira <span class="text-red-500">*</span>
+      </label>
+      <div class="relative">
+        <input
+          type="text"
+          [(ngModel)]="projectKey"
+          placeholder="Ex: PROJ, WEB, DS"
+          class="input-field" 
+          [class.input-error]="showError()"
+          (input)="showError.set(false)"
+        />
+
+        <p class="hint-text">
+          Digite a chave do projeto onde as tarefas serão criadas.
+        </p>
+      </div>
+
+      @if (showError()) {
+        <p class="error-msg">
+          A chave do projeto é obrigatória.
+        </p>
+      }
+    </div>
+
+    <div
+      (dragover)="handleDragOver($event)"
+      (dragleave)="handleDragLeave()"
+      (drop)="handleDrop($event)"
+      [class]="getUploadAreaClasses()"
+    >
+      <input #fileInput type="file" class="hidden" accept=".pdf,.docx,.doc,.txt" (change)="handleFileSelect($event)" />
+
+      <label class="drop-zone-content" (click)="fileInput.click()">
+        <div class="icon-circle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+        </div>
+        <h2>Arraste e solte seu documento</h2>
+        <p>ou clique para selecionar</p>
+
+        <div class="btn-select-file">
+          Selecionar Arquivo
+        </div>
+      </label>
+    </div>
+
+    <div class="file-types-footer">
+      <div class="type-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
+          <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
+          <path d="M10 9H8"/>
+          <path d="M16 13H8"/>
+          <path d="M16 17H8"/>
+        </svg>
+        <span>PDF</span>
+      </div>
+      <div class="type-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
+          <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
+          <path d="M10 9H8"/>
+          <path d="M16 13H8"/>
+          <path d="M16 17H8"/>
+        </svg>
+        <span>DOCX</span>
+      </div>
+      <div class="type-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
+          <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
+          <path d="M10 9H8"/>
+          <path d="M16 13H8"/>
+          <path d="M16 17H8"/>
+        </svg>
+        <span>TXT</span>
+      </div>
+    </div>
+
+  </div>
+</div>

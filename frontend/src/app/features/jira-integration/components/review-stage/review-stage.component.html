@@ -1,0 +1,210 @@
+<div class="review-container">
+  <div class="max-w-wrapper">
+    
+    <div class="page-header">
+      <h1>
+        {{ isReadOnly ? 'Visualização' : 'Revisão do Backlog' }}
+      </h1>
+    </div>
+
+    <div class="epic-card">
+      <div class="flex items-center gap-2 mb-3">
+        <div class="epic-badge">DOCUMENTO / ÉPICO</div>
+      </div>
+      <input
+        type="text"
+        [ngModel]="currentEpic().title"
+        (ngModelChange)="handleEpicTitleChange($event)"
+        [disabled]="isReadOnly"
+        class="epic-title-input"
+      />
+      <div class="epic-counter">
+        {{ currentEpic().stories.length }} histórias geradas
+      </div>
+    </div>
+
+    <div class="stories-list">
+      @for (story of currentEpic().stories; track story.id; let storyIndex = $index) {
+        <div class="story-card">
+
+          <div class="story-header" (click)="toggleStoryExpanded(story.id)">
+            <div class="flex items-start gap-4">
+              <div class="arrow-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     [class.rotate-180]="isStoryExpanded(story.id)">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </div>
+
+              <div class="flex-1">
+                <div class="flex items-center gap-3 mb-2">
+                  <span class="font-mono text-xs text-slate-500">STORY-{{storyIndex + 1}}</span>
+                  
+                  <span [class]="getPriorityClass(story.priority)" class="meta-badge">
+                      {{ story.priority }}
+                  </span>
+                  
+                  <span class="meta-badge badge-neutral">
+                      {{ story.complexity }}
+                  </span>
+                </div>
+                <h3 class="story-title">{{ story.title }}</h3>
+              </div>
+
+              @if (!isReadOnly) {
+                <button (click)="$event.stopPropagation(); handleDeleteStory(story.id)" class="btn-delete">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                </button>
+              }
+            </div>
+          </div>
+
+          @if (isStoryExpanded(story.id)) {
+            <div class="story-body">
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="form-label">Título da Tarefa (Jira)</label>
+                  <input type="text" [ngModel]="story.title" (ngModelChange)="updateStory(story.id, 'title', $event)" [disabled]="isReadOnly"
+                         class="form-input">
+                </div>
+                <div class="flex gap-4">
+                  <div class="flex-1">
+                    <label class="form-label">Prioridade</label>
+                    <select [ngModel]="story.priority" (ngModelChange)="updateStory(story.id, 'priority', $event)" [disabled]="isReadOnly"
+                            class="form-select">
+                      <option value="High">High</option>
+                      <option value="Medium">Medium</option>
+                      <option value="Low">Low</option>
+                    </select>
+                  </div>
+                  <div class="flex-1">
+                    <label class="form-label">Complexidade</label>
+                    <input type="text" [ngModel]="story.complexity" (ngModelChange)="updateStory(story.id, 'complexity', $event)" [disabled]="isReadOnly"
+                           class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"> </div>
+                </div>
+              </div>
+
+              <div>
+                <label class="form-label">Formato da História</label>
+                <textarea [ngModel]="story.userStoryFormat" (ngModelChange)="updateStory(story.id, 'userStoryFormat', $event)" [disabled]="isReadOnly"
+                          rows="2" class="form-textarea"></textarea>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div class="list-section">
+                  <div class="section-header">
+                    <h4>Critérios de Aceitação</h4>
+                    @if(!isReadOnly) { <button (click)="addItem(story.id, 'acceptanceCriteria')" class="btn-add-text">+ Adicionar</button> }
+                  </div>
+                  <ul class="space-y-2">
+                    @for (criteria of story.acceptanceCriteria; track $index) {
+                      <li>
+                        <span class="text-green-500 mt-1">✓</span>
+                        <input type="text" [ngModel]="criteria" (ngModelChange)="updateListItem(story.id, 'acceptanceCriteria', $index, $event)"
+                               [disabled]="isReadOnly">
+                        @if(!isReadOnly) { <button (click)="removeListItem(story.id, 'acceptanceCriteria', $index)" class="btn-remove-item">×</button> }
+                      </li>
+                    }
+                  </ul>
+                </div>
+
+                <div class="list-section">
+                  <div class="section-header">
+                    <h4>Dependências</h4>
+                    @if(!isReadOnly) { <button (click)="addItem(story.id, 'dependencies')" class="btn-add-text">+ Adicionar</button> }
+                  </div>
+                  <ul class="space-y-2">
+                    @for (dep of story.dependencies; track $index) {
+                      <li>
+                        <span class="text-amber-500 mt-1">⚠</span>
+                        <input type="text" [ngModel]="dep" (ngModelChange)="updateListItem(story.id, 'dependencies', $index, $event)"
+                               [disabled]="isReadOnly">
+                        @if(!isReadOnly) { <button (click)="removeListItem(story.id, 'dependencies', $index)" class="btn-remove-item">×</button> }
+                      </li>
+                    }
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between items-center mb-3">
+                  <label class="text-xs font-semibold text-slate-500 uppercase">Tarefas Técnicas (Subtasks)</label>
+                </div>
+                <div class="subtasks-container">
+                  @for (task of story.tasks; track task.id) {
+                    <div class="subtask-row">
+                      <div class="checkbox-mock"></div>
+                      <input type="text" [ngModel]="task.title" (ngModelChange)="handleTaskTitleChange(story.id, task.id, $event)"
+                             [disabled]="isReadOnly">
+                      @if(!isReadOnly) {
+                        <button (click)="handleDeleteTask(story.id, task.id)" class="text-slate-300 hover:text-red-500 p-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 18 18"/></svg>
+                        </button>
+                      }
+                    </div>
+                  }
+                  @if(!isReadOnly) {
+                    <button (click)="handleAddTask(story.id)" class="btn-add-subtask">
+                      <span>+ Adicionar Tarefa Técnica</span>
+                    </button>
+                  }
+                </div>
+              </div>
+
+            </div>
+          }
+        </div>
+      }
+    </div>
+    <div class="add-story-container">
+    @if (!isReadOnly) {
+          <button (click)="handleAddStory()" class="btn-add-story">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="M12 5v14"/>
+            </svg>
+            <span>Adicionar História de Usuário</span>
+          </button>
+        }
+      
+      </div>
+
+
+    <div class="sticky-footer">
+      
+      <button (click)="onCancel()" class="btn-cancel">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="m15 9-6 6"/>
+          <path d="m9 9 6 6"/>
+        </svg>
+        <span>{{ isReadOnly ? 'Voltar' : 'Cancelar' }}</span>
+      </button>
+
+      @if (!isReadOnly) {
+        <div class="footer-right-group">
+          
+          <div class="stats-text">
+            {{ currentEpic().stories.length }} histórias • {{ getTotalTasks() }} tarefas
+          </div>
+          
+          <button (click)="onApprove()" class="btn-approve" [disabled]="isSyncing()">
+            @if (isSyncing()) {
+              <span class="loading-spinner"></span>
+              <span>Sincronizando...</span>
+            } @else {
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+              <span>Aprovar e Sincronizar com Jira</span>
+            }
+          </button>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>
